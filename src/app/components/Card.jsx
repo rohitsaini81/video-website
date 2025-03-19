@@ -5,10 +5,10 @@ export default function Card({ id, image, title, duration }) {
     const video2 = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
     return (
         <>
+            {/* <Link href={`/video/${id}`}> */}
             <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                <Link href={`/video/${id}`}>
-                    <img className="rounded-t-lg" src={image2} alt="" />
-                </Link>
+                <img className="w-1/2 mx-auto bg-gray-300 p-4 rounded-t-lg" src={image2} alt="" />
+                {/* </Link> */}
                 <div className="p-5">
                     <Link href={`/video/${id}`}>
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
