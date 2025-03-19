@@ -1,0 +1,105 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+
+# Node modules
+node_modules/
+.next/
+out/
+dist/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# Dependency directories
+.pnp/
+.pnp.js
+.pnpm-store/
+
+# Editor settings
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Build output
+.next/
+out/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Misc
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Testing coverage reports
+coverage/
+
+# Next.js Cache
+.next/cache/
+
+# Local runtime files
+*.pid
+*.seed
+*.sqlite
+
+# Ignore any generated assets
+public/assets/
+
+# OS-specific files
+Thumbs.db
