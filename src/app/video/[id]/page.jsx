@@ -1,5 +1,5 @@
 export default async function VideoPreview({ params }) {
-    const res = await fetch(`http://127.0.0.1:8080/search?id=${params.id}`, { cache: "no-store" });
+    const res = await fetch(`http://13.60.74.121:8080/search?id=${params.id}`, { cache: "no-store" });
     const video = await res.json();
 
     return (
