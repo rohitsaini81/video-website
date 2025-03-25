@@ -3,7 +3,7 @@ export default async function HomePage() {
   let videos = [];
 
   try {
-    const response = await fetch("http://13.60.74.121:8080/videos", { cache: "no-store" }); 
+    const response = await fetch("http://13.60.74.121:8080/api/stream/videos", { cache: "no-store" }); 
     videos = await response.json();
   } catch (error) {
     console.error("Error fetching videos:", error);
@@ -12,7 +12,7 @@ export default async function HomePage() {
   return (
     <>
       <hr />
-      <h1>Sweets</h1>
+      <h1><span className="gulabi">Sweets</span></h1>
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
         {videos.map((data, index) => (
           <Card

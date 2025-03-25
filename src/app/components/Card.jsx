@@ -4,15 +4,14 @@ export default async function Card({ id, image, title, duration }) {
     let image2 = image;
     image2 = image2.split("/");
     image2 = image2[image2.length - 1];
-    console.log(image2);
-    image2 = `http://13.60.74.121:8080/${image2}`
+    image2 = `http://13.60.74.121:8080/files/${image2}`
     const video2 = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
 
     return (
         <>
             {/* <Link href={`/video/${id}`}> */}
             <div className="w-[10rem] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                <img className="w-[100px] mx-auto bg-gray-30 0rounded-t-lg" src={image2} alt="" />
+                <img className="w-[100px] mx-auto bg-gray-30 0rounded-t-lg" src={image2} alt="%" unoptimized="true"/>
                 {/* </Link> */}
                 <div className="">
                     <Link href={`/video/${id}`}>
