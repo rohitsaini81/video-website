@@ -6,13 +6,13 @@ export default function RootLayout({ children }) {
       <body>
         <header>
           <nav>
-            <a className="gulabi" href="/">Home</a> | <a className="gulabi" href="/about">About</a> |
+            <Link className="gulabi" href="/">Home</Link> | <Link className="gulabi" href="/about">About</Link> |
             <Search />
             <br />
             <hr />
-            <a className="gulabi" href="/videos/1">category 1</a> | <a className="gulabi" href="/videos/2">category 2</a> | <a className="gulabi" href="/videos/3">category 3</a> | <a className="gulabi" href="/videos/4">category 4</a>
-            | <a className="gulabi" href="/videos/5">category 5</a> | <a className="gulabi" href="/videos/6">category 6</a> | <a className="gulabi" href="/videos/7">category 7</a> | <a className="gulabi" href="/videos/8">category 8</a>
-            | <a className="gulabi" href="/videos/9">category 9</a> | <a className="gulabi" href="/videos/10">category 10</a>
+            <Link className="gulabi" href="/videos/1">category 1</Link> | <Link className="gulabi" href="/videos/2">category 2</Link> | <Link className="gulabi" href="/videos/3">category 3</Link> | <Link className="gulabi" href="/videos/4">category 4</Link>
+            | <Link className="gulabi" href="/videos/5">category 5</Link> | <Link className="gulabi" href="/videos/6">category 6</Link> | <Link className="gulabi" href="/videos/7">category 7</Link> | <Link className="gulabi" href="/videos/8">category 8</Link>
+            | <Link className="gulabi" href="/videos/9">category 9</Link> | <Link className="gulabi" href="/videos/10">category 10</Link>
           </nav>
         </header>
         <main>{children}</main>
