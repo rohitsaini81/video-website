@@ -1,9 +1,11 @@
-import Card from "./components/Card.jsx"; // Adjust import path if needed
+import Card from "./components/Card.jsx";
+const uri = "http://stream.xxxvideoshub.i"
+// Adjust import path if needed
 export default async function HomePage() {
   let videos = [];
 
   try {
-    const response = await fetch("http://13.60.74.121:8080/api/stream/videos", { cache: "no-store" }); 
+    const response = await fetch("http://stream.xxxvideoshub.in/api/stream/videos", { cache: "no-store" }); 
     videos = await response.json();
   } catch (error) {
     console.error("Error fetching videos:", error);
