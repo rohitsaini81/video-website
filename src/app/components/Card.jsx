@@ -1,10 +1,10 @@
 import Link from "next/link";
-
+const uri = "http://stream.xxxvideoshub.in"
 export default async function Card({ id, image, title, duration }) {
     let image2 = image;
     image2 = image2.split("/");
     image2 = image2[image2.length - 1];
-    image2 = `http://13.60.74.121:8080/files/${image2}`
+    image2 = `${uri}/files/${image2}`
     const video2 = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
 
     return (
