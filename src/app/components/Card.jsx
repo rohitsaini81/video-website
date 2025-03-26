@@ -1,5 +1,5 @@
 import Link from "next/link";
-const uri = "http://stream.xxxvideoshub.in"
+import { uri } from "../layout";
 export default async function Card({ id, image, title, duration }) {
     let image2 = image;
     image2 = image2.split("/");

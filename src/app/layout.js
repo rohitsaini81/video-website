@@ -1,6 +1,8 @@
 import Search from "./components/Search";
 import Link from 'next/link';
 import "./globals.css";
+export const uri = "https://stream.xxxvideoshub.in"
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
