@@ -1,5 +1,7 @@
-import { uri } from "@/app/layout";
+// import { uri } from "../../page.jsx";
 export default async function VideoPreview({ params }) {
+  const uri = "https://stream.xxxvideoshub.in"
+
     const { id } = await params; // Ensure params is awaited properly
     if (!params) return <div>Loading...</div>; // Handle case where params is not ready
     const res = await fetch(`${uri}/api/stream/video?id=${id}`, { cache: "no-store" });

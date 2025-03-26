@@ -1,11 +1,12 @@
 import Card from "./components/Card.jsx";
-import { uri } from "./layout.js";
 // Adjust import path if needed
 export default async function HomePage() {
   let videos = [];
+  const uri = "https://stream.xxxvideoshub.in/api/stream/videos"
 
   try {
-    const response = await fetch(`${uri}/api/stream/videos`, { cache: "no-store" }); 
+    console.log("hello : ",uri)
+    const response = await fetch(uri, { cache: "no-store" }); 
     videos = await response.json();
   } catch (error) {
     console.error("Error fetching videos:", error);

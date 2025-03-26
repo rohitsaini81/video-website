@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { uri } from "../layout";
+// import { uri } from "../layout";
 export default async function Card({ id, image, title, duration }) {
     let image2 = image;
+    const uri = "https://stream.xxxvideoshub.in"
+
     image2 = image2.split("/");
     image2 = image2[image2.length - 1];
     image2 = `${uri}/files/${image2}`
@@ -11,7 +13,7 @@ export default async function Card({ id, image, title, duration }) {
         <>
             {/* <Link href={`/video/${id}`}> */}
             <div className="w-[10rem] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
-                <img className="w-[100px] mx-auto bg-gray-30 0rounded-t-lg" src={image2} alt="%" unoptimized="true"/>
+                <img className="w-[100px] mx-auto bg-gray-30 0rounded-t-lg" src={image2} alt="%" unoptimized="true" />
                 {/* </Link> */}
                 <div className="">
                     <Link href={`/video/${id}`}>
