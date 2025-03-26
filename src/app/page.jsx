@@ -1,5 +1,5 @@
 import Card from "./components/Card.jsx";
-const uri = "http://stream.xxxvideoshub.i"
+const uri = "http://stream.xxxvideoshub.in"
 // Adjust import path if needed
 export default async function HomePage() {
   let videos = [];
