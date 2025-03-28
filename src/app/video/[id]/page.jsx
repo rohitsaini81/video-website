@@ -1,6 +1,6 @@
 // import { uri } from "../../page.jsx";
 export default async function VideoPreview({ params }) {
-  const uri = "https://stream.xxxvideoshub.in"
+  const uri = "https://stream.xxxvideoss.site"
 
     const { id } = await params; // Ensure params is awaited properly
     if (!params) return <div>Loading...</div>; // Handle case where params is not ready

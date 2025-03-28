@@ -2,7 +2,7 @@ import Card from "./components/Card.jsx";
 // Adjust import path if needed
 export default async function HomePage() {
   let videos = [];
-  const uri = "https://stream.xxxvideoshub.in/api/stream/videos"
+  const uri = "https://stream.xxxvideoss.site/api/stream/videos"
 
   try {
     console.log("hello : ",uri)
