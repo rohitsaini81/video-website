@@ -2,7 +2,7 @@ import Link from "next/link";
 // import { uri } from "../layout";
 export default async function Card({ id, image, title, duration }) {
     let image2 = image;
-    const uri = "https://stream.xxxvideoss.site"
+    const uri = "https://www.stream.xxxvideoss.site"
 
     image2 = image2.split("/");
     image2 = image2[image2.length - 1];
