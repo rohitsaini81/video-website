@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect } from "react";
 
 export default function GoogleAnalytics() {
@@ -16,7 +17,8 @@ export default function GoogleAnalytics() {
       gtag('config', 'G-1WHG6BN485');
     `;
     document.head.appendChild(script2);
-  }, []);
+  }, []);// import GoogleAnalytics from "./components/GoogleAnalytics";
+
 
   return null;
 }

@@ -1,5 +1,5 @@
 import Search from "./components/Search";
-import GoogleAnalytics from "./Components/GoogleAnalytics";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 import Link from 'next/link';
 import "./globals.css";
 
@@ -9,7 +9,7 @@ export default function RootLayout({ children }) {
 
 
    <body>
-<GoogleAnalytics />
+    <GoogleAnalytics />
         <header>
           <nav>
             <Link className="gulabi" href="/">Home</Link> | <Link className="gulabi" href="/about">About</Link> |
