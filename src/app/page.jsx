@@ -23,7 +23,7 @@ export default async function HomePage() {
             id={data.id}
             image={data.image}
             title={data.title}
-            duration="2h 30m"
+            duration={data.duration}
           />
         ))}
       </div>

@@ -1,13 +1,13 @@
 import Link from "next/link";
 // import { uri } from "../layout";
 export default async function Card({ id, image, title, duration }) {
-    let image2 = image;
-    const uri = "https://www.stream.xxxvideoss.site"
+    const uri = "https://www.stream.xxxvideoss.site";
+    const altImage = "/dance.gif";
 
-    image2 = image2.split("/");
-    image2 = image2[image2.length - 1];
-    image2 = `${uri}/files/${image2}`
-    const video2 = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
+    // Check if `image` is invalid
+    let image2 = (image =="false" || image === false) ? altImage : `${uri}/files/${image.split("/").pop()}`;
+
+    // const video2 = "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
 
     return (
         <>
