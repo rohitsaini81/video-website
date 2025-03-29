@@ -1,17 +1,17 @@
 // import { uri } from "../../page.jsx";
 export default async function Videos({ params }) {
-    const uri = "https://www.stream.xxxvideoss.site/api/stream/category?type=";
+    const uri = "https://www.stream.xxxvideoss.site/api/stream/category?tag=";
     let Category = "";
       const { id } = await params; 
-      if(id === "1") Category = "Amateur";
+      if(id === "1") Category = "new";
       if(id === "2") Category = "Anal";
         if(id === "3") Category = "Asian";
-        if(id === "4") Category = "BBW";
+        if(id === "4") Category = "cumshot";
         if(id === "5") Category = "BDSM";
         if(id === "6") Category = "Big Boobs";
         if(id === "7") Category = "Big Butts";
-        if(id === "8") Category = "Blowjob";
-        if(id === "9") Category = "Creampie";
+        if(id === "8") Category = "hot";
+        if(id === "9") Category = "latina";
 
       if (!params) return <div>Loading...</div>; // Handle case where params is not ready
       const res = await fetch(`${uri}+${"porn"}`, { cache: "no-store" });
