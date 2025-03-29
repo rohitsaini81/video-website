@@ -1,4 +1,5 @@
 import Search from "./components/Search";
+import GoogleAnalytics from "./Components/GoogleAnalytics";
 import Link from 'next/link';
 import "./globals.css";
 
@@ -7,23 +8,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
 
 
-<head>
-        {/* Google Analytics */}
-        <Script
-          strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-1WHG6BN485"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-1WHG6BN485');
-          `}
-        </Script>
-</head>
-
-      <body>
+   <body>
+<GoogleAnalytics />
         <header>
           <nav>
             <Link className="gulabi" href="/">Home</Link> | <Link className="gulabi" href="/about">About</Link> |
