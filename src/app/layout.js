@@ -21,6 +21,7 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-1WHG6BN485');
           `}
         </Script>
+</head>
 
       <body>
         <header>
