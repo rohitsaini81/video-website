@@ -1,6 +1,6 @@
 import Link from "next/link";
 // import { uri } from "../layout";
-export default async function Card({ id, image, title, duration }) {
+export default function Card({ id, image, title, duration }) {
     const uri = "https://www.stream.xxxvideoss.site";
     const altImage = "/dance.gif";
 

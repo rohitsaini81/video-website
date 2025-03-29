@@ -11,7 +11,7 @@ const Search = () => {
         e.preventDefault();
         const query = inputRef.current?.value;
         if (query) {
-            router.push(`/search?query=${encodeURIComponent(query)}`); // Navigate to results page
+            router.push(`/search/${encodeURIComponent(query)}`); // Navigate to results page
         }
     };
 

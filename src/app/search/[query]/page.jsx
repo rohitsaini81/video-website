@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Card from "../../components/Card.jsx"; // Adjust import path if needed
 
-const Search = () => {
-    const { query } = useParams(); // Get search query from the URL
-    const [videos, setVideos] = useState([]);
-    
+const Search =  () => {
+    const { query } = useParams() || {}; // Ensure it doesn't crash
+    const new_query = query ? decodeURIComponent(query) : ""; // Handle undefined
+    console.log("Query:", query, "Decoded:", new_query);
+    const [videos, setVideos] = useState([]);    
+
     useEffect(() => {
         const fetchVideos = async () => {
             if (!query) return;
             try {
-                const uri = `/api/proxy?query=${encodeURIComponent(query)}`;
+                const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
                 console.log("Fetching from:", uri);
                 const response = await fetch(uri, { cache: "no-store" });
                 const data = await response.json();
@@ -37,8 +40,15 @@ const Search = () => {
             <div>
                 {videos.length > 0 ? (
                     <ul>
-                        {videos.map((video, index) => (
-                            <li key={index} className="mt-2 p-2 border-b">{video.title}</li>
+                        {videos.map((data, index) => (
+                            // <li key={index} className="mt-2 p-2 border-b">{video.title}</li>
+                            <Card 
+                            key={index}
+                            id={data.id}
+                            image={data.image}
+                            title={data.title}
+                            duration={data.duration}
+                            />
                         ))}
                     </ul>
                 ) : (
