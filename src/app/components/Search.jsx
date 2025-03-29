@@ -1,25 +1,19 @@
-"use client"; // Ensures it's a client component in Next.js 13+
+"use client";
 
 import { useState, createRef } from "react";
+import { useRouter } from "next/navigation"; // Use navigation for client-side routing
 
 const Search = () => {
     const inputRef = createRef();
-    let uri = "";
+    const router = useRouter(); // Initialize useRouter
+
     const handleClick = async (e) => {
         e.preventDefault();
-        try {
-            if (inputRef.current.value) {
-                uri = `/api/proxy?query=${encodeURIComponent(inputRef.current.value)}`;
-                console.log(uri)
-                const response = await fetch(uri, { cache: "no-store" });
-                const videos = await response.json();
-                console.log(videos);
-            }
-        } catch (error) {
-            console.error("Error fetching videos:", error);
+        const query = inputRef.current?.value;
+        if (query) {
+            router.push(`/search?query=${encodeURIComponent(query)}`); // Navigate to results page
         }
     };
-
 
     return (
         <div className="flex flex-col items-center">
