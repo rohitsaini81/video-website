@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import ReactPlayer from 'react-player ' ;
 import { Video_Uri } from "@/app/layout";
-const Watch =  () => {
+import ReactPlayer from "react-player";
+
+
+const Watch = () => {
     const { slug } = useParams() || {}; // Ensure it doesn't crash
 
     const new_query = slug ? decodeURIComponent(slug) : ""; // Handle undefined
     console.log("Query:", slug, "Decoded:", new_query);
-    const [videos, setVideos] = useState([]);    
-    const [video_source, setVideo_source ] = useState("");
+    const [videos, setVideos] = useState([]);
+    const [video_source, setVideo_source] = useState("");
     useEffect(() => {
+
         const fetchVideos = async () => {
             if (!slug) return;
             try {
@@ -42,39 +45,42 @@ const Watch =  () => {
             <br />
             <hr />
             <div>
-                
-                        <ul>
-                            <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-                                {
-                                    videos.length>0?
-                                    <div className="flex">
-                                    
 
- <ReactPlayer src={video_source} url= controls={true} />
+                <ul>
+                    <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+                        {
+                            videos.length > 0 ?
+                                <div className="flex">
+
+                                    <video
+                                        src={video_source}
+                                        className="video"
+                                        height="320" width="400" 
+                                        controls/>
+                                    {/* <ReactPlayer /> */}
+
+
+
+
+                                    <li className="mt-2 p-2 border-b">
+                                        <img src={videos[0].image} alt={videos[0].title} />
+                                        <p>{videos[0].title}</p>
+                                        <p>{videos[0].duration}</p>
+                                    </li>
+                                </div>
+                                :
+                                <div>
+                                    <p className="text-gray-500">No Video found.</p>
+                                </div>
+
+                        }
+                    </div>
+                </ul>
 
 
 
 
 
-                                        <li className="mt-2 p-2 border-b">
-                                            <img src={videos[0].image} alt={videos[0].title} />
-                                            <p>{videos[0].title}</p>
-                                            <p>{videos[0].duration}</p>
-                                        </li>
-                                    </div>
-                                    :
-                                    <div>
-                                        <p className="text-gray-500">No Video found.</p>
-                                    </div>
-                                        
-                                }
-                            </div>
-                        </ul>
-                    
-     
-                  
-                       
-      
             </div>
         </div>
     );
