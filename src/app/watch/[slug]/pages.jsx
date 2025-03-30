@@ -1,8 +1,9 @@
-import { useRouter } from 'next/router';
 
-const VideoPage = () => {
-  const router = useRouter();
-  const { slug } = router.query;
+import { useParams } from "next/navigation";
+const  Watch = () => {
+  
+ const { slug } = useParams() || {}; //
+  
 
   return (
     <div>
@@ -14,4 +15,9 @@ const VideoPage = () => {
   );
 };
 
-export default VideoPage;
+export default Watch;
+
+
+
+
+
