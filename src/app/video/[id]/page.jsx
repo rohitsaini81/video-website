@@ -1,7 +1,10 @@
+import { Video_Uri } from "@/app/layout";
+
 // import { uri } from "../../page.jsx";
 export default async function VideoPreview({ params }) {
     const uri = "https://www.stream.xxxvideoss.site"
 
+    Video_Uri
     const { id } = await params; // Ensure params is awaited properly
     if (!params) return <div>Loading...</div>; // Handle case where params is not ready
     const res = await fetch(`${uri}/api/stream/video?id=${id}`, { cache: "no-store" });
@@ -9,8 +12,10 @@ export default async function VideoPreview({ params }) {
     if (!video_data) return <div>Loading...</div>; // Handle case where video is not ready
     if (video_data.error) return <div>{video.error}</div>; // Handle error case
 
-    let video =video_data.video.split("/") 
-    video = `${uri}/files/${video[video.length - 1]}`;
+    console.log(video_data.video);
+    console.log(Video_Uri);
+    let video =Video_Uri+ video_data.video;
+    if (!video) return <div>Loading...\n Error !</div>; // Handle case where video is not ready
 
     return (
         <main>

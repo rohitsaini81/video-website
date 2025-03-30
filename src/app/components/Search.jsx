@@ -9,7 +9,8 @@ const Search = () => {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const query = inputRef.current?.value;
+        let query = inputRef.current?.value;
+        if(query.length>0){}
         if (query) {
             router.push(`/search/${encodeURIComponent(query)}`); // Navigate to results page
         }

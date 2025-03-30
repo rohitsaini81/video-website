@@ -3,6 +3,7 @@ import GoogleAnalytics from "./components/GoogleAnalytics";
 import Link from 'next/link';
 import "./globals.css";
 
+export let Video_Uri = "https://pub-a919e0e7442047299d7072ac1b2ab5d0.r2.dev/"
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
