@@ -5,9 +5,10 @@ import { useParams } from "next/navigation";
 import Card from "../../components/Card.jsx"; // Adjust import path if needed
 
 const Watch =  () => {
-    const { query } = useParams() || {}; // Ensure it doesn't crash
-    const new_query = query ? decodeURIComponent(query) : ""; // Handle undefined
-    console.log("Query:", query, "Decoded:", new_query);
+    const { slug } = useParams() || {}; // Ensure it doesn't crash
+
+    const new_query = slug ? decodeURIComponent(slug) : ""; // Handle undefined
+    console.log("Query:", slug, "Decoded:", new_query);
     const [videos, setVideos] = useState([]);    
 
     useEffect(() => {
