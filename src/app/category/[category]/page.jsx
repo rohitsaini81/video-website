@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
+import Card from "@/app/components/Card";
 
 export default function CategoryPage() {
     const [videos, setVideos] = useState([]);
@@ -40,11 +41,21 @@ export default function CategoryPage() {
             ) : videos.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     {videos.map((video) => (
-                        <div key={video.id} className="p-4 border rounded">
-                            <h2 className="text-lg font-semibold">{video.title}</h2>
-                            <img src={video.image} alt={video.title} className="w-full h-48 object-cover" />
-                            <p>Duration: {video.duration}</p>
-                        </div>
+                        // <div key={video.id} className="p-4 border rounded">
+                        //     <h2 className="text-lg font-semibold">{video.title}</h2>
+                        //     <img src={video.image} alt={video.title} className="w-full h-48 object-cover" />
+                        //     <p>Duration: {video.duration}</p>
+                        // </div>
+
+                        <Card
+                            key={video.id}
+                            title={video.title}
+                            image={video.image}
+                            duration={video.duration}
+                            id={video.id}
+                            category={category}
+                            description={video.description}
+                            ></Card>
                     ))}
                 </div>
             ) : (
