@@ -16,15 +16,11 @@ export default function RootLayout({ children }) {
             <Search />
             <br />
             <hr />
-            <Link className="gulabi" href="/videos/1">Amateur</Link> |
-            <Link className="gulabi" href="/videos/2">Anal</Link>  |
-            <Link className="gulabi" href="/videos/3">Asian</Link>  |
-            <Link className="gulabi" href="/videos/4">BBW</Link>  |
-            <Link className="gulabi" href="/videos/5">BDSM</Link>  |
-            <Link className="gulabi" href="/videos/6">Big Boobs</Link>  |
-            <Link className="gulabi" href="/videos/7">Big Butts</Link>  |
-            <Link className="gulabi" href="/videos/8">Blowjob</Link>  |
-            <Link className="gulabi" href="/videos/9">Creampie</Link>
+            <Link className="gulabi" href="/category/Amateur">Amateur</Link> |
+            <Link className="gulabi" href="/category/Anal">Anal</Link>  |
+            <Link className="gulabi" href="/category/Asian">Asian</Link>  |
+            <Link className="gulabi" href="/category/new">New</Link>  |
+            
 
 
 

@@ -11,10 +11,10 @@ export default function Card({ id, image, title, duration }) {
 
     return (
         <>
-            {/* <Link href={`/video/${id}`}> */}
             <div className="w-[10rem] bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+            <Link href={`/video/${id}`}>
                 <img className="w-[100px] mx-auto bg-gray-30 0rounded-t-lg" src={image2} alt="%" unoptimized="true" />
-                {/* </Link> */}
+                </Link>
                 <div className="">
                     <Link href={`/video/${id}`}>
                         <p className="font-bold tracking-tight text-gray-900 dark:text-white">{duration}</p>

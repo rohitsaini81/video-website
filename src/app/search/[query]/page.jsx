@@ -32,7 +32,7 @@ const Search =  () => {
             <div className="flex items-center">
                 <div className="flex bg-white border-2 border-pink-500 shadow-lg rounded-lg overflow-hidden p-2">
                     <p className="text-red-500 font-bold">Search:</p>
-                    <span className="ml-2 text-gray-700">{query}</span>
+                    <span className="ml-2 text-gray-700">{new_query}</span>
                 </div>
             </div>
             <br />
@@ -40,6 +40,8 @@ const Search =  () => {
             <div>
                 {videos.length > 0 ? (
                     <ul>
+                              <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+
                         {videos.map((data, index) => (
                             // <li key={index} className="mt-2 p-2 border-b">{video.title}</li>
                             <Card 
@@ -50,6 +52,7 @@ const Search =  () => {
                             duration={data.duration}
                             />
                         ))}
+                        </div>
                     </ul>
                 ) : (
                     <p className="text-gray-500">No results found.</p>
