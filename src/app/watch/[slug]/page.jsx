@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import Video from "next-video"
+import ReactPlayer from 'react-player ' ;
 import { Video_Uri } from "@/app/layout";
 const Watch =  () => {
     const { slug } = useParams() || {}; // Ensure it doesn't crash
@@ -48,7 +48,14 @@ const Watch =  () => {
                                 {
                                     videos.length>0?
                                     <div className="flex">
-                                        <Video src={video_source} />
+                                    
+
+ <ReactPlayer src={video_source} url= controls={true} />
+
+
+
+
+
                                         <li className="mt-2 p-2 border-b">
                                             <img src={videos[0].image} alt={videos[0].title} />
                                             <p>{videos[0].title}</p>
