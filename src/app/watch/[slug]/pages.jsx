@@ -13,7 +13,7 @@ const Watch =  () => {
 
     useEffect(() => {
         const fetchVideos = async () => {
-            if (!query) return;
+            if (!slug) return;
             try {
                 const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
                 console.log("Fetching from:", uri);
@@ -26,7 +26,7 @@ const Watch =  () => {
         };
 
         fetchVideos();
-    }, [query]); // Re-fetch when the query changes
+    }, [slug]); // Re-fetch when the query changes
 
     return (
         <div className="flex flex-col items-center">
