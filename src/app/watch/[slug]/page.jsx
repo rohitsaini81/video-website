@@ -1,75 +1,80 @@
 "use client";
-
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Video_Uri } from "@/app/layout";
-import VideoPlayer from "@/app/components/SimpleVideoPlayer"; // Import your custom video player component
+import VideoPlayer from "@/app/components/SimpleVideoPlayer";
 
 const Watch = () => {
-  const { slug } = useParams() || {}; // Ensure it doesn't crash
-
-  const new_query = slug ? decodeURIComponent(slug) : ""; // Handle undefined
-  console.log("Query:", slug, "Decoded:", new_query);
+  const { slug } = useParams() || {};
+  const new_query = slug ? decodeURIComponent(slug) : "";
   const [videos, setVideos] = useState([]);
   const [video_source, setVideo_source] = useState("");
-    const HandlePLayer = useRef(null);
+  const HandlePLayer = useRef(null);
   const temp_video =
     "https://pub-a919e0e7442047299d7072ac1b2ab5d0.r2.dev/video.mp4";
+
   useEffect(() => {
     const fetchVideos = async () => {
       if (!slug) return;
       try {
-        if(window.innerWidth < 600 && HandlePLayer.current){
-            HandlePLayer.current.classList.add("flex-col");
-            HandlePLayer.current.classList.remove("flex-row");
+        if (window.innerWidth < 600 && HandlePLayer.current) {
+          HandlePLayer.current.classList.add("flex-col");
+          HandlePLayer.current.classList.remove("flex-row");
         }
 
-
-
         const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
-        console.log("Fetching from:", uri);
         const response = await fetch(uri, { cache: "no-store" });
         const data = await response.json();
         setVideos(data);
-        let temp = Video_Uri + data[0].video;
-        setVideo_source(temp);
-        // console.log(data[0]);
+        setVideo_source(Video_Uri + data[0].video);
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
     };
-
     fetchVideos();
-  }, [slug]); // Re-fetch when the query changes
+  }, [slug]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex items-center">
-        <div className="flex bg-white border-2 border-pink-500 shadow-lg rounded-lg overflow-hidden p-2">
-          <p className="text-red-500 font-bold">Watch HD:</p>
-          <span className="ml-2 text-gray-700">{"new_query"}</span>
-        </div>
+    <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6">
+      <div className="bg-gray-800 border border-pink-500 shadow-lg rounded-lg p-4 mb-4 text-center">
+        <p className="text-pink-400 font-bold">Watch HD:</p>
+        <span className="text-gray-300">{new_query}</span>
       </div>
-      <br />
-      <hr />
-      <div>
-        <ul>
-          <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-            {videos.length > 0 ? (
-              <div ref={HandlePLayer} className="flex flex-col m-2 p-2 border-2 border-gray-300 rounded-lg">
-                <VideoPlayer publicId={video_source} />
-                <li className="mt-2 p-2 border-b">
-                  <p>{videos[0].title}</p>
-                  <p>{videos[0].duration}</p>
-                </li>
+
+      <div className="w-full max-w-3xl flex flex-col items-center bg-gray-800 p-4 rounded-lg shadow-md">
+        {videos.length > 0 ? (
+          <div ref={HandlePLayer} className="flex flex-col w-full">
+            <VideoPlayer publicId={video_source} />
+            <div className="mt-4 p-4 bg-gray-700 rounded-lg">
+              <p className="text-lg font-bold">{videos[0].title}</p>
+              <p className="text-gray-400">Duration: {videos[0].duration}</p>
+            </div>
+
+            <div className="mt-4">
+              <div className="mt-2">
+                <span className="font-semibold">Tags: </span>
+                {videos[0].tagsList.map((tag, index) => (
+                  <span key={index} className="text-green-400">
+                    {tag}
+                    {index !== videos[0].tagsList.length - 1 && ", "}
+                  </span>
+                ))}
               </div>
-            ) : (
-              <div>
-                <p className="text-gray-500">Loading...</p>
-              </div>
-            )}
+            </div>
+
+            <div className="mt-6">
+              <Link
+                href={`/download/${videos[0].id}`}
+                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
+              >
+                Download Full Video HD
+              </Link>
+            </div>
           </div>
-        </ul>
+        ) : (
+          <p className="text-gray-400">Loading...</p>
+        )}
       </div>
     </div>
   );
