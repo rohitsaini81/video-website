@@ -1,9 +1,9 @@
 export async function GET(req) {
     const { searchParams } = new URL(req.url);
     const query = searchParams.toString(); // Get all query parameters as a string
-  console.log("query : ",query)
+  // console.log("query : ",query)
     const externalUrl = `https://www.stream.xxxvideoss.site/api/stream/search?${query}`;
-    console.log("externalUrl : ",externalUrl)
+    // console.log("externalUrl : ",externalUrl)
   
     try {
       const response = await fetch(externalUrl);

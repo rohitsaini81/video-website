@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { AiOutlineSound } from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineSound } from "react-icons/ai";
 import { CiPlay1 } from "react-icons/ci";
 import { FaVolumeMute } from "react-icons/fa";
 import { CiPause1 } from "react-icons/ci";
@@ -22,7 +22,7 @@ const VideoPlayer = ({ publicId }) => {
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.code === "Space") {
-        e.previntDefault(); 
+        e.preventDefault(); // Prevent scrolling 
         handleTogglePlay();
       }
     };
@@ -118,6 +118,7 @@ const VideoPlayer = ({ publicId }) => {
         >
           {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
         </button>
+
         <button
           className="m-1 p-2 bg-gray-700 hover:bg-gray-600 rounded"
           htmlFor="volume"
@@ -132,9 +133,18 @@ const VideoPlayer = ({ publicId }) => {
           step="0.01"
           value={volume}
           onChange={handleVolumeChange}
-          className="m-1 w-1/8 h-1 bg-gray-500 cursor-pointer"
+          className="m-1 w-15 h-1 bg-gray-500 cursor-pointer"
         />
 
+        <span className="text-gray-700 flex items-center">
+          {buffering ? "Buffering..." : ""}
+          {Math.floor(progress * 60)}
+          {video_ref.current && video_ref.current.duration
+            ? `/${Math.floor(video_ref.current.duration.toFixed(2)/60)} min `
+            : ""}
+
+            <AiOutlineLoading3Quarters className="m-2" />
+        </span>
         <input
           name="progress"
           type="range"

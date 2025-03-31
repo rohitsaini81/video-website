@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import { Video_Uri } from "@/app/layout";
 import VideoPlayer from "@/app/components/SimpleVideoPlayer"; // Import your custom video player component
@@ -12,12 +12,20 @@ const Watch = () => {
   console.log("Query:", slug, "Decoded:", new_query);
   const [videos, setVideos] = useState([]);
   const [video_source, setVideo_source] = useState("");
+    const HandlePLayer = useRef(null);
   const temp_video =
     "https://pub-a919e0e7442047299d7072ac1b2ab5d0.r2.dev/video.mp4";
   useEffect(() => {
     const fetchVideos = async () => {
       if (!slug) return;
       try {
+        if(window.innerWidth < 600 && HandlePLayer.current){
+            HandlePLayer.current.classList.add("flex-col");
+            HandlePLayer.current.classList.remove("flex-row");
+        }
+
+
+
         const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
         console.log("Fetching from:", uri);
         const response = await fetch(uri, { cache: "no-store" });
@@ -48,16 +56,16 @@ const Watch = () => {
         <ul>
           <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
             {videos.length > 0 ? (
-              <div className="flex">
+              <div ref={HandlePLayer} className="flex flex-col m-2 p-2 border-2 border-gray-300 rounded-lg">
                 <VideoPlayer publicId={video_source} />
                 <li className="mt-2 p-2 border-b">
-                  {/* <p>{videos[0].title}</p> */}
+                  <p>{videos[0].title}</p>
                   <p>{videos[0].duration}</p>
                 </li>
               </div>
             ) : (
               <div>
-                <p className="text-gray-500">No Video found.</p>
+                <p className="text-gray-500">Loading...</p>
               </div>
             )}
           </div>
