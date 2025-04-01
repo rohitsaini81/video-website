@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from "react";
-import { AiOutlineLoading3Quarters, AiOutlineSound } from "react-icons/ai";
-import { CiPlay1 } from "react-icons/ci";
+import {
+  AiOutlineLoading3Quarters,
+  AiOutlineSound,
+} from "react-icons/ai";
+import { CiPlay1, CiPause1, CiSettings } from "react-icons/ci";
 import { FaVolumeMute } from "react-icons/fa";
-import { CiPause1 } from "react-icons/ci";
-import { CiSettings } from "react-icons/ci";
-import { BsFullscreen } from "react-icons/bs";
-import { BsFullscreenExit } from "react-icons/bs";
+import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
 
 const VideoPlayer = ({ publicId }) => {
-  const video_ref = useRef(null);
-  const video_player_ref = useRef(null);
+  const videoRef = useRef(null);
+  const playerRef = useRef(null);
+  const controlsRef = useRef(null);
+  
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -17,151 +19,165 @@ const VideoPlayer = ({ publicId }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [buffering, setBuffering] = useState(false);
 
-
-
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.code === "Space") {
-        e.preventDefault(); // Prevent scrolling 
+        e.preventDefault();
         handleTogglePlay();
       }
     };
 
     window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, []);
 
-    // Cleanup function to remove event listener when component unmounts
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const updateProgress = () => {
+      setProgress(video.currentTime / video.duration);
+    };
+
+    const handleBuffering = () => setBuffering(video.readyState < 3);
+    const handlePlaying = () => setBuffering(false);
+
+    video.addEventListener("timeupdate", updateProgress);
+    video.addEventListener("waiting", handleBuffering);
+    video.addEventListener("playing", handlePlaying);
+
     return () => {
-      window.removeEventListener("keydown", handleKeyPress);
+      video.removeEventListener("timeupdate", updateProgress);
+      video.removeEventListener("waiting", handleBuffering);
+      video.removeEventListener("playing", handlePlaying);
     };
   }, []);
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      console.log("Search triggered:", e.target.value);
-    }
-  }
 
   const handleTogglePlay = () => {
-    if (video_ref.current) {
-      if (video_ref.current.paused) {
-        video_ref.current.play();
-        setIsPlaying(true);
-      } else {
-        video_ref.current.pause();
-        setIsPlaying(false);
-      }
+    if (!videoRef.current) return;
+    if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPlaying(true);
+    } else {
+      videoRef.current.pause();
+      setIsPlaying(false);
     }
   };
 
-  const HandleControl = useRef(null);
-  const HandleFullScreen = () => {
+  const handleFullScreen = () => {
+    if (!playerRef.current) return;
+
     if (document.fullscreenElement) {
-      HandleControl.current.classList.remove("controls-full-screen");
       document.exitFullscreen();
       setIsFullScreen(false);
     } else {
-      video_player_ref.current.requestFullscreen();
-      HandleControl.current.classList.add("controls-full-screen");
+      playerRef.current.requestFullscreen();
       setIsFullScreen(true);
     }
   };
 
   const handleVolumeChange = (e) => {
-    let volume_value = parseFloat(e.target.value); // Ensure it's a number
-    volume_value = Math.min(1, Math.max(0, volume_value)); // Clamp between 0 and 1
-
-    setVolume(volume_value);
-
-    if (video_ref.current) {
-      if (volume_value === 0) {
-        setIsMuted(true);
-        video_ref.current.muted = true;
-      } else {
-        setIsMuted(false);
-        video_ref.current.muted = false;
-      }
-      video_ref.current.volume = volume_value;
+    const newVolume = Math.max(0, Math.min(1, parseFloat(e.target.value)));
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+      videoRef.current.muted = newVolume === 0;
+      setIsMuted(newVolume === 0);
     }
   };
 
   const handleProgressChange = (e) => {
-    const progress = parseFloat(e.target.value); // Ensure it's a float
-    setProgress(progress);
-    if (video_ref.current && video_ref.current.duration) {
-      video_ref.current.currentTime = video_ref.current.duration * progress;
-    }
+    if (!videoRef.current) return;
+    const newProgress = parseFloat(e.target.value);
+    setProgress(newProgress);
+    videoRef.current.currentTime = videoRef.current.duration * newProgress;
   };
+
   const toggleMute = () => {
-    if (video_ref.current) {
-      video_ref.current.muted = !isMuted; // Mute/unmute the video
-      setIsMuted(!isMuted); // Update state
-    }
+    if (!videoRef.current) return;
+    const newMuteState = !isMuted;
+    videoRef.current.muted = newMuteState;
+    setIsMuted(newMuteState);
+    setVolume(newMuteState ? 0 : videoRef.current.volume);
   };
 
   return (
-    <div ref={video_player_ref} className="video-player">
-      <video ref={video_ref}>
-        <source src={publicId} />
-      </video>
-      <div
-        ref={HandleControl}
-        className="controls bg-amber-200 h-10 flex items-center justify-between p-2"
-      >
-        <button
-          onClick={handleTogglePlay}
-          className="m-1 p-2 bg-gray-700 hover:bg-gray-600 rounded play-button"
-        >
-          {isPlaying ? <CiPause1 /> : <CiPlay1 />}
-        </button>
-        <button
-          onClick={HandleFullScreen}
-          className="m-1 p-2 bg-gray-700 hover:bg-gray-600 rounded fullscreen-button"
-        >
-          {isFullScreen ? <BsFullscreenExit /> : <BsFullscreen />}
-        </button>
+    <div ref={playerRef} className="video-player w-full relative bg-black">
+      <video ref={videoRef} className="w-full" src={publicId} />
 
-        <button
-          className="m-1 p-2 bg-gray-700 hover:bg-gray-600 rounded"
-          htmlFor="volume"
+      <div className="h-25 w-full p-2 bg-opacity-50 bg-gray-900 flex flex-col">
+        {/* Progress Bar */}
+        <div className="progress flex items-center w-full">
+          <span className="text-white text-sm mr-2">
+            {buffering && <AiOutlineLoading3Quarters className="animate-spin inline-block mr-1" />}
+            {Math.floor(progress * (videoRef.current?.duration || 0) / 60) || 0}:
+            {Math.floor(progress * (videoRef.current?.duration || 0) % 60) || 0}
+          </span>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value={progress}
+            onChange={handleProgressChange}
+            className="w-full h-1 bg-gray-400 cursor-pointer"
+          />
+        </div>
+
+
+
+
+        {/* Control Buttons */}
+        <div
+          ref={controlsRef}
+          className="controls flex items-center justify-between mt-2"
         >
-          {!isMuted?<AiOutlineSound onClick={toggleMute}/>:<FaVolumeMute onClick={toggleMute}/>}
-        </button>
-        <input
-          name="volume"
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={volume}
-          onChange={handleVolumeChange}
-          className="m-1 w-15 h-1 bg-gray-500 cursor-pointer"
-        />
+          {/* Left Controls */}
+          <div className="flex items-center">
+            <button
+              onClick={handleTogglePlay}
+              className="p-2 "
+            >
+              {isPlaying ? <CiPause1 size={20} /> : <CiPlay1 size={20} />}
+            </button>
 
-        <span className="text-gray-700 flex items-center">
-          {buffering ? "Buffering..." : ""}
-          {Math.floor(progress * 60)}
-          {video_ref.current && video_ref.current.duration
-            ? `/${Math.floor(video_ref.current.duration.toFixed(2)/60)} min `
-            : ""}
+            <button
+              onClick={toggleMute}
+              className="p-2 "
+            >
+              {isMuted ? <FaVolumeMute size={20} /> : <AiOutlineSound size={20} />}
+            </button>
 
-            <AiOutlineLoading3Quarters className="m-2" />
-        </span>
-        <input
-          name="progress"
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
-          value={progress}
-          onChange={handleProgressChange}
-          onWaiting={() => setBuffering(true)} // Fires when buffering starts
-          onPlaying={() => setBuffering(false)}
-          className="m-1 w-1/2 h-1 bg-gray-500 cursor-pointer"
-        />
-        <button className="p-2 bg-gray-700 hover:bg-gray-600 rounded quality-button">
-          <CiSettings />
-        </button>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="w-16 h-1 cursor-pointer"
+            />
+          </div>
+
+          {/* Right Controls */}
+          <div className="flex items-center">
+            <button
+              onClick={handleFullScreen}
+              className="p-2 "
+            >
+              {isFullScreen ? <BsFullscreenExit size={20} /> : <BsFullscreen size={20} />}
+            </button>
+
+            <button className="p-2 ">
+              <CiSettings size={20} />
+            </button>
+          </div>
+        </div>
+
+
       </div>
     </div>
   );
 };
+
 export default VideoPlayer;
