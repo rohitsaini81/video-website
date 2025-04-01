@@ -8,7 +8,7 @@ export default function Card({ id, image, title, duration }) {
   return (
     <div className="w-full sm:w-60 bg-pink-100 border border-pink-200 rounded-lg shadow-lg overflow-hidden">
       <Link href={`/watch/${title}`}>
-        <img className="w-full h-40 object-cover" src={image2} alt={title} />
+        <img className="w-full h-[40%] object-cover" src={image2} alt={title} />
       </Link>
       <div className="p-4 text-center">
         <Link href={`/watch/${title}`}>
