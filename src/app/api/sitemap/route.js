@@ -1,9 +1,9 @@
 export async function GET(req) {
-  const baseUrl = "https://www.stream.xxxvideoss.site";
-
+  const baseUrl = "https://www.xxxvideoss.site";
+const api_uri="https://www.stream.xxxvideoss.site";
   let videos = [];
   try {
-    const res = await fetch(`${baseUrl}/api/stream/videos`);
+    const res = await fetch(`${api_uri}/api/stream/videos`);
     videos = await res.json();
   } catch (error) {
     return new Response("Failed to fetch videos", { status: 500 });
