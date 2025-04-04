@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic'; // optional: to always revalidate
 export const revalidate = 0; // don't cache
 
 export async function generateSitemap() {
-  const baseUrl = "https://video-website-git-fork-rohitsaini82-main-rohitsaini81s-projects.vercel.app";
+  const baseUrl = "https://xxxvideoss.site";
   let videos = [];
 
   try {
