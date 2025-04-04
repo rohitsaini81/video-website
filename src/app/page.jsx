@@ -1,24 +1,47 @@
 import Card from "./components/Card.jsx";
-// Adjust import path if needed
+import Head from "next/head";
+
 export default async function HomePage() {
   let videos = [];
   const uri = "https://www.stream.xxxvideoss.site/api/stream/videos";
 
   try {
-    // console.log("hello : ",uri)
     const response = await fetch(uri, { cache: "no-store" });
     videos = await response.json();
+
+    // Filter videos with valid images
     videos = videos.filter(
       (video) => video.image !== "false" && video.image !== false
     );
-    console.log("Videos size : ", videos.length);
-    videos = videos.slice(0, 50); // Limit to 20 videos
+
+    console.log("Videos size:", videos.length);
+    videos = videos.slice(0, 50);
   } catch (error) {
     console.error("Error fetching videos:", error);
   }
 
+  // Construct structured data
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: videos.map((video, index) => ({
+      "@type": "VideoObject",
+      position: index + 1,
+      name: video.title,
+      description: video.title,
+      thumbnailUrl: video.image,
+      contentUrl: `/watch/${video.title}`, // No `window` here
+    })),
+  };
+
   return (
     <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+        />
+      </Head>
       <hr />
       <h1 className="bg-pink-700">
         Sweets Sex Videos Download XXX Mp4 Porn - Porn Videos

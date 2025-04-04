@@ -12,15 +12,14 @@ const Watch = () => {
   const [videos, setVideos] = useState([]);
   const [video_source, setVideo_source] = useState("");
   const HandlePLayer = useRef(null);
-  const temp_video =
-    "https://pub-a919e0e7442047299d7072ac1b2ab5d0.r2.dev/video.mp4";
+  const [video_schema, setVideoSchema] = useState(null); // Fix: Default null to avoid empty object issues.
 
-  const [video_schema, setVideoSchema] = useState({});
   useEffect(() => {
+    if (!slug) return;
+
     const fetchVideos = async () => {
-      if (!slug) return;
       try {
-        if (window.innerWidth < 600 && HandlePLayer.current) {
+        if (typeof window !== "undefined" && window.innerWidth < 600 && HandlePLayer.current) {
           HandlePLayer.current.classList.add("flex-col");
           HandlePLayer.current.classList.remove("flex-row");
         }
@@ -28,38 +27,43 @@ const Watch = () => {
         const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
         const response = await fetch(uri, { cache: "no-store" });
         const data = await response.json();
+
+        if (data.length === 0) return; // Fix: Prevents crashes when no data is found.
+
         setVideos(data);
-        setVideo_source(Video_Uri + data[0].video);
+        setVideo_source(Video_Uri + (data[0]?.video || "")); // Fix: Safe optional chaining.
+
         setVideoSchema({
           "@context": "https://schema.org",
           "@type": "VideoObject",
-          name: data[0].title,
-          description: data[0].description,
-          thumbnailUrl: data[0].image,
-          // "uploadDate": video.uploadDate,
-          // "contentUrl":  "",
-          // "embedUrl": video.embedUrl || video.contentUrl
+          name: data[0]?.title || "Unknown Video",
+          description: data[0]?.description || "No description available",
+          thumbnailUrl: data[0]?.image || "",
+          uploadDate: data[0]?.uploadDate || "",
+          contentUrl: `${window.location.origin}/watch/${slug}`,
+          embedUrl: data[0]?.embedUrl || "",
         });
       } catch (error) {
         console.error("Error fetching videos:", error);
       }
     };
+
     fetchVideos();
   }, [slug]);
 
   return (
     <>
-      {videos.length > 0 ? (
+      {videos.length > 0 && (
         <Head>
-          <title>{videos[0].title}</title>
-          <meta name="description" content={videos[0].title} />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(video_schema) }}
-          />{" "}
+          <title>{videos[0]?.title || "Watch Video"}</title>
+          <meta name="description" content={videos[0]?.description || "Enjoy watching videos"} />
+          {video_schema && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(video_schema) }}
+            />
+          )}
         </Head>
-      ) : (
-        <div></div>
       )}
 
       <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6">
@@ -71,27 +75,27 @@ const Watch = () => {
         <div className="w-full max-w-3xl flex flex-col items-center bg-gray-800 p-4 rounded-lg shadow-md">
           {videos.length > 0 ? (
             <div ref={HandlePLayer} className="flex flex-col w-full">
-              <VideoPlayer publicId={video_source} poster={videos[0].image} />
+              <VideoPlayer publicId={video_source} poster={videos[0]?.image || ""} />
               <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-                <p className="text-lg font-bold">{videos[0].title}</p>
-                <p className="text-gray-400">Duration: {videos[0].duration}</p>
+                <p className="text-lg font-bold">{videos[0]?.title || "Untitled"}</p>
+                <p className="text-gray-400">Duration: {videos[0]?.duration || "Unknown"}</p>
               </div>
 
               <div className="mt-4">
                 <div className="mt-2">
                   <span className="font-semibold">Tags: </span>
-                  {videos[0].tagsList.map((tag, index) => (
+                  {videos[0]?.tagsList?.map((tag, index) => (
                     <span key={index} className="text-green-400">
                       {tag}
                       {index !== videos[0].tagsList.length - 1 && ", "}
                     </span>
-                  ))}
+                  )) || <span className="text-gray-500">No tags</span>}
                 </div>
               </div>
 
               <div className="mt-6">
                 <Link
-                  href={`/download/${videos[0].id}`}
+                  href={`/download/${videos[0]?.id || ""}`}
                   className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
                 >
                   Download Full Video HD

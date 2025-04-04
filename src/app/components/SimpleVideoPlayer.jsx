@@ -6,9 +6,12 @@ import {
 import { CiPlay1, CiPause1, CiSettings } from "react-icons/ci";
 import { FaVolumeMute } from "react-icons/fa";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
+import { Video_Uri } from "../layout";
 
 const VideoPlayer = ({ publicId,poster }) => {
   const altImage = "/dance.gif";
+  const uri = "https://www.stream.xxxvideoss.site";
+
   let image2 = poster === "false" || poster === false ? altImage : `${uri}/files/${poster.split("/").pop()}`;
 
   const videoRef = useRef(null);
