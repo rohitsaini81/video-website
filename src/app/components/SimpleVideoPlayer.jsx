@@ -7,7 +7,10 @@ import { CiPlay1, CiPause1, CiSettings } from "react-icons/ci";
 import { FaVolumeMute } from "react-icons/fa";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
 
-const VideoPlayer = ({ publicId }) => {
+const VideoPlayer = ({ publicId,poster }) => {
+  const altImage = "/dance.gif";
+  let image2 = poster === "false" || poster === false ? altImage : `${uri}/files/${poster.split("/").pop()}`;
+
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const controlsRef = useRef(null);
@@ -103,7 +106,7 @@ const VideoPlayer = ({ publicId }) => {
 
   return (
     <div ref={playerRef} className="video-player w-full relative bg-black">
-      <video ref={videoRef} className="w-full" src={publicId} />
+      <video ref={videoRef} className="w-full" src={publicId} poster={image2}/>
 
       <div className="h-25 w-full p-2 bg-opacity-50 bg-gray-900 flex flex-col">
         {/* Progress Bar */}
