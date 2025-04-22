@@ -21,6 +21,7 @@ const Search =  () => {
                 console.log("Fetching from:", uri);
                 const response = await fetch(uri, { cache: "no-store" });
                 const data = await response.json();
+                console.log("Fetched data:", data);
                 setVideos(data);
                 setLoading(false);
                 setError(null);
@@ -56,7 +57,7 @@ const Search =  () => {
                             <Card 
                             key={index}
                             id={data.id}
-                            image={data.image}
+                            image={data.img_url}
                             title={data.title}
                             duration={data.duration}
                             />

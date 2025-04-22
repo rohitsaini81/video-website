@@ -3,19 +3,22 @@ import Head from "next/head";
 
 export default async function HomePage() {
   let videos = [];
-  const uri = "https://www.stream.xxxvideoss.site/api/stream/videos";
+ // const uri = "https://www.stream.xxxvideoss.site/api/stream/videos";
+  const uri = `http://127.0.0.1:3000/api/stream/videos/page/1`;
 
   try {
     const response = await fetch(uri, { cache: "no-store" });
-    videos = await response.json();
+    const data = await response.json();
+    console.log("Data:", data);
+    videos = await data.videos
 
     // Filter videos with valid images
     videos = videos.filter(
       (video) => video.image !== "false" && video.image !== false
     );
 
-    console.log("Videos size:", videos.length);
-    videos = videos.slice(0, 50);
+    console.log("Videos size:", videos);
+    
   } catch (error) {
     console.error("Error fetching videos:", error);
   }
@@ -52,7 +55,7 @@ export default async function HomePage() {
           <Card
             key={index}
             id={data.id}
-            image={data.image}
+            image={data.img_url}
             title={data.title}
             duration={data.duration}
           />

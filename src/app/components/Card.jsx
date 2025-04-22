@@ -3,6 +3,7 @@ import Link from "next/link";
 export default function Card({ id, image, title, duration }) {
   const uri = "https://www.stream.xxxvideoss.site";
   const altImage = "/dance.gif";
+  console.log("Image URL:", image);
   let image2 = image === "false" || image === false ? altImage : `${uri}/files/${image.split("/").pop()}`;
 
   return (

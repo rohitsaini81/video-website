@@ -62,7 +62,7 @@ New Sex Videos New Porn Download Free New New HD Sex Video Mp4 Xxx Download New 
                         <Card
                             key={video.id}
                             title={video.title}
-                            image={video.image}
+                            image={video.img_url}
                             duration={video.duration}
                             id={video.id}
                             category={category}
