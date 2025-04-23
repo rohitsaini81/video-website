@@ -5,8 +5,8 @@ export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.toString(); // Get all query parameters as a string
   // console.log("query : ",query)
-  // const externalUrl = `https://www.stream.xxxvideoss.site/api/stream/category?${query}`;
-    const externalUrl = `http://localhost:3000/api/stream/category?${query}`;
+  const externalUrl = `https://www.stream.xxxvideoss.site/api/stream/category?${query}`;
+    // const externalUrl = `http://localhost:3000/api/stream/category?${query}`;
   // console.log("externalUrl : ",externalUrl)
 
   try {

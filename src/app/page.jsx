@@ -3,11 +3,12 @@ import Head from "next/head";
 
 export default async function HomePage() {
   let videos = [];
- // const uri = "https://www.stream.xxxvideoss.site/api/stream/videos";
-  const uri = `http://127.0.0.1:3000/api/stream/videos/page/1`;
+ const uri = "https://www.stream.xxxvideoss.site/api/stream/videos/page/1";
+  // const uri = `http://127.0.0.1:3000/api/stream/videos/page/1`;
 
   try {
     const response = await fetch(uri, { cache: "no-store" });
+    console.log("Response:", await response.status);
     const data = await response.json();
     console.log("Data:", data);
     videos = await data.videos
