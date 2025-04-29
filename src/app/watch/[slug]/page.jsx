@@ -31,7 +31,7 @@ const Watch = () => {
         if (data.length === 0) return; // Fix: Prevents crashes when no data is found.
 
         setVideos(data);
-        setVideo_source(Video_Uri + (data[0]?.video || "")); // Fix: Safe optional chaining.
+        setVideo_source(Video_Uri + (data[0]?.video_url || "")); // Fix: Safe optional chaining.
 
         setVideoSchema({
           "@context": "https://schema.org",
