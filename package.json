@@ -14,6 +14,7 @@
     "cloudinary-video-player": "1.9.3",
     "hls.js": "^1.6.0",
     "install": "^0.13.0",
+    "mongoose": "^8.19.0",
     "next": "15.2.3",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
