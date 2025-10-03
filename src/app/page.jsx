@@ -1,18 +1,18 @@
 import Card from "./components/Card.jsx";
 import Head from "next/head";
-
+import { fetchVideos } from "./api/video/fetchVideos.js";
 export default async function HomePage() {
   let videos = [];
  const uri = "https://www.stream.xxxvideoss.site/api/stream/videos/page/1";
   // const uri = `http://127.0.0.1:3000/api/stream/videos/page/1`;
 
   try {
-    const response = await fetch(uri, { cache: "no-store" });
-    console.log("Response:", await response.status);
-    const data = await response.json();
-    console.log("Data:", data);
-    videos = await data.videos
 
+    const data = await fetchVideos(); // fetch from DB directly (server)
+    // const response = await fetch(uri, { cache: "no-store" });
+    console.log("Response:");
+
+    videos=data.length>0?data:null;
     // Filter videos with valid images
     videos = videos.filter(
       (video) => video.image !== "false" && video.image !== false
