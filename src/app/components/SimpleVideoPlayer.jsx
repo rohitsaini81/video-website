@@ -1,23 +1,17 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
-import {
-  AiOutlineLoading3Quarters,
-  AiOutlineSound,
-} from "react-icons/ai";
+import { AiOutlineLoading3Quarters, AiOutlineSound } from "react-icons/ai";
 import { CiPlay1, CiPause1, CiSettings } from "react-icons/ci";
 import { FaVolumeMute } from "react-icons/fa";
 import { BsFullscreen, BsFullscreenExit } from "react-icons/bs";
 import { Video_Uri } from "../layout";
 
-const VideoPlayer = ({ publicId,poster }) => {
-  const altImage = "/dance.gif";
-  const uri = "https://www.stream.xxxvideoss.site";
-
-  let image2 = poster === "false" || poster === false ? altImage : `${uri}/files/${poster.split("/").pop()}`;
-
+const VideoPlayer = ({ publicId, poster }) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
   const controlsRef = useRef(null);
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(1);
@@ -25,6 +19,14 @@ const VideoPlayer = ({ publicId,poster }) => {
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [buffering, setBuffering] = useState(false);
 
+  const altImage = "/dance.gif";
+  const uri = "https://www.stream.xxxvideoss.site";
+  const posterImage =
+    poster === "false" || poster === false
+      ? altImage
+      : `${uri}/files/${poster.split("/").pop()}`;
+
+  // Keyboard space to toggle play/pause
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.code === "Space") {
@@ -32,19 +34,16 @@ const VideoPlayer = ({ publicId,poster }) => {
         handleTogglePlay();
       }
     };
-
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
   }, []);
 
+  // Video events: progress, buffering
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const updateProgress = () => {
-      setProgress(video.currentTime / video.duration);
-    };
-
+    const updateProgress = () => setProgress(video.currentTime / video.duration);
     const handleBuffering = () => setBuffering(video.readyState < 3);
     const handlePlaying = () => setBuffering(false);
 
@@ -72,7 +71,6 @@ const VideoPlayer = ({ publicId,poster }) => {
 
   const handleFullScreen = () => {
     if (!playerRef.current) return;
-
     if (document.fullscreenElement) {
       document.exitFullscreen();
       setIsFullScreen(false);
@@ -83,7 +81,7 @@ const VideoPlayer = ({ publicId,poster }) => {
   };
 
   const handleVolumeChange = (e) => {
-    const newVolume = Math.max(0, Math.min(1, parseFloat(e.target.value)));
+    const newVolume = Math.min(1, Math.max(0, parseFloat(e.target.value)));
     setVolume(newVolume);
     if (videoRef.current) {
       videoRef.current.volume = newVolume;
@@ -109,15 +107,15 @@ const VideoPlayer = ({ publicId,poster }) => {
 
   return (
     <div ref={playerRef} className="video-player w-full relative bg-black">
-      <video ref={videoRef} className="w-full" src={publicId} poster={image2}/>
+      <video ref={videoRef} className="w-full" src={publicId} poster={posterImage} />
 
       <div className="h-25 w-full p-2 bg-opacity-50 bg-gray-900 flex flex-col">
         {/* Progress Bar */}
         <div className="progress flex items-center w-full">
           <span className="text-white text-sm mr-2">
             {buffering && <AiOutlineLoading3Quarters className="animate-spin inline-block mr-1" />}
-            {Math.floor(progress * (videoRef.current?.duration || 0) / 60) || 0}:
-            {Math.floor(progress * (videoRef.current?.duration || 0) % 60) || 0}
+            {Math.floor((progress * (videoRef.current?.duration || 0)) / 60) || 0}:
+            {Math.floor((progress * (videoRef.current?.duration || 0)) % 60) || 0}
           </span>
           <input
             type="range"
@@ -130,27 +128,14 @@ const VideoPlayer = ({ publicId,poster }) => {
           />
         </div>
 
-
-
-
-        {/* Control Buttons */}
-        <div
-          ref={controlsRef}
-          className="controls flex items-center justify-between mt-2"
-        >
-          {/* Left Controls */}
+        {/* Controls */}
+        <div ref={controlsRef} className="controls flex items-center justify-between mt-2">
           <div className="flex items-center">
-            <button
-              onClick={handleTogglePlay}
-              className="p-2 "
-            >
+            <button onClick={handleTogglePlay} className="p-2">
               {isPlaying ? <CiPause1 size={20} /> : <CiPlay1 size={20} />}
             </button>
 
-            <button
-              onClick={toggleMute}
-              className="p-2 "
-            >
+            <button onClick={toggleMute} className="p-2">
               {isMuted ? <FaVolumeMute size={20} /> : <AiOutlineSound size={20} />}
             </button>
 
@@ -165,22 +150,15 @@ const VideoPlayer = ({ publicId,poster }) => {
             />
           </div>
 
-          {/* Right Controls */}
           <div className="flex items-center">
-            <button
-              onClick={handleFullScreen}
-              className="p-2 "
-            >
+            <button onClick={handleFullScreen} className="p-2">
               {isFullScreen ? <BsFullscreenExit size={20} /> : <BsFullscreen size={20} />}
             </button>
-
-            <button className="p-2 ">
+            <button className="p-2">
               <CiSettings size={20} />
             </button>
           </div>
         </div>
-
-
       </div>
     </div>
   );

@@ -52,7 +52,7 @@ export async function fetchVideos() {
 export async function fetchVideo(id) {
   try {
     await connectDB();
-    const users = await User.findOne({_id:id});
+    const users = await User.findOne({"title":id});
     console.log("Fetched users:", users);
     return users;
   } catch (error) {
