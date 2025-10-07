@@ -20,8 +20,10 @@ export default async function WatchPage({ params }) {
     console.error("Error fetching videos:", err);
   }
 
-  const videoSource = videos[0] ? Video_Uri + (videos[0].video_url || "") : "";
-
+  let videoSource = videos[0].data[0] ? Video_Uri + (videos[0].data[0].video_url || "") : "";
+  videoSource = videoSource?videoSource.replace("downloads", "videos"):videoSource;
+  
+console.log(videoSource)
   const videoSchema = videos[0]
     ? {
         "@context": "https://schema.org",

@@ -1,25 +1,6 @@
 // src/app/api/hello/route.js
 
-import mongoose from "mongoose"
-// Load from environment variables (recommended)
-const MONGO_URI = process.env.MONGO_URI;
-
-
-
-
-const userSchema = new mongoose.Schema({
-  title: String,
-  img_url: String,
-  video_url: String,
-  tags: Array,
-  description: String,
-  category: Array,
-  duration: String,
-});
-
 // Create a model (maps to a MongoDB collection)
-const User = mongoose.models.xxxvideos || mongoose.model("xxxvideos", userSchema, "xxxvideos");
-
 
 import { createClient } from '@supabase/supabase-js';
 import dotenv from "dotenv";
@@ -32,23 +13,12 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let isConnected = false;
 
-async function connectDB() {
-  if (isConnected) return;
-  await mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  isConnected = true;
-  console.log("✅ MongoDB connected");
-}
-
 
 
 
 export async function fetchVideos() {
   try {
-    await connectDB();
-    const users = await User.find({});
+    
     const { data, error } = await supabase.from("videos").select("*");
     console.log("Fetched users:", data);
     return data;
@@ -59,12 +29,15 @@ export async function fetchVideos() {
 };
 
 
-export async function fetchVideo(id) {
+export async function findVideos(query) {
   try {
-    await connectDB();
-    const users = await User.findOne({"title":id});
-    //console.log("Fetched users:", users);
-    return users;
+
+     const { data: videos, error } = await supabase
+  .from("videos")
+  .select("*")
+  .or(`title.ilike.%${query}%,description.ilike.%${query}%`);
+
+    return videos;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
@@ -83,16 +56,9 @@ export async function fetchVideo(id) {
 
 
 export async function fetchVideoByQuery(query) {
-  await connectDB();
 
   // Search title or description (case-insensitive)
-  const video = await User.findOne({
-    $or: [
-      { title: { $regex: query, $options: "i" } },
-      { description: { $regex: query, $options: "i" } },
-    ],
-  });
-
+  const video = await supabase.from("videos").select("*").eq("title", query);
   return video; // returns a single document or null
 }
 

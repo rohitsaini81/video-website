@@ -1,54 +1,39 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
 import Card from "../../components/Card.jsx"; // Adjust import path if needed
+import {findVideos} from "@/app/api/video/fetchVideos.js";
 
-const Search =  () => {
-    const { query } = useParams() || {}; // Ensure it doesn't crash
-    let new_query = query ? decodeURIComponent(query) : ""; // Handle undefined
-    if(new_query[new_query.length - 1] === " ") {
-        new_query = new_query.slice(0, -1);
+
+const Search =  async ({ params }) => {
+
+
+  const query = decodeURIComponent(params?.query || "").trim();
+
+
+
+let videos = [];
+  let error = null;
+
+  try {
+    videos = await findVideos(query);
+    if (!videos || videos.length === 0) {
+      error = "No videos found.";
     }
-    const [videos, setVideos] = useState([]);    
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    useEffect(() => {
-        const fetchVideos = async () => {
-            if (!query) return;
-            try {
-                const uri = `/api/proxy?query=${encodeURIComponent(new_query)}`;
-                console.log("Fetching from:", uri);
-                const response = await fetch(uri, { cache: "no-store" });
-                const data = await response.json();
-                console.log("Fetched data:", data);
-                setVideos(data);
-                setLoading(false);
-                setError(null);
-                if (data.length === 0) {
-                    setError("No videos found.");
-                }
-            } catch (error) {
-                console.error("Error fetching videos:", error);
-                setError("Failed to fetch videos.");
-            }
-        };
+  } catch (err) {
+    console.error("Error fetching videos:", err);
+    error = "Failed to fetch videos.";
+  }
 
-        fetchVideos();
-    }, [query]); // Re-fetch when the query changes
-
-    return (
+        return (
         <div className="flex flex-col items-center">
             <div className="flex items-center">
                 <div className="flex bg-white border-2 border-pink-500 shadow-lg rounded-lg overflow-hidden p-2">
                     <p className="text-red-500 font-bold">Search:</p>
-                    <span className="ml-2 text-gray-700">{new_query}</span>
+                    <span className="ml-2 text-gray-700">{query}</span>
                 </div>
             </div>
             <br />
             <hr />
             <div>
-                {!loading > 0 ? (
+                {true > 0 ? (
                     <ul>
                               <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
 
