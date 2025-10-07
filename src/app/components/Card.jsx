@@ -4,7 +4,7 @@ export default function Card({ id, image, title, duration }) {
   const uri = "https://pub-a919e0e7442047299d7072ac1b2ab5d0.r2.dev";
   const altImage = "/dance.gif";
   console.log("Image URL:", image);
-  let image2 = image === "false" || image === false ? altImage : `${uri}/files/${image.split("/").pop()}`;
+  let image2 = image === "false" || image === false ? altImage : `${uri}/photos/${image.split("/").pop()}`;
 
   return (
     <div className="w-full sm:w-60 bg-pink-100 border border-pink-200 rounded-lg shadow-lg overflow-hidden">

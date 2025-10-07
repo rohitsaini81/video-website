@@ -18,7 +18,7 @@ export default async function HomePage() {
       (video) => video.image !== "false" && video.image !== false
     );
 
-    console.log("Videos size:", videos);
+    //console.log("Videos size:", videos);
     
   } catch (error) {
     console.error("Error fetching videos:", error);

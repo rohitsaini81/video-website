@@ -21,6 +21,15 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.models.xxxvideos || mongoose.model("xxxvideos", userSchema, "xxxvideos");
 
 
+import { createClient } from '@supabase/supabase-js';
+import dotenv from "dotenv";
+dotenv.config();
+
+// Load from environment variables (recommended)
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
 let isConnected = false;
 
 async function connectDB() {
@@ -40,8 +49,9 @@ export async function fetchVideos() {
   try {
     await connectDB();
     const users = await User.find({});
-    console.log("Fetched users:", users);
-    return users;
+    const { data, error } = await supabase.from("videos").select("*");
+    console.log("Fetched users:", data);
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return [];
@@ -53,7 +63,7 @@ export async function fetchVideo(id) {
   try {
     await connectDB();
     const users = await User.findOne({"title":id});
-    console.log("Fetched users:", users);
+    //console.log("Fetched users:", users);
     return users;
   } catch (error) {
     console.error("Error fetching data:", error);
