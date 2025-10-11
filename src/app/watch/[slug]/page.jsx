@@ -15,25 +15,29 @@ export default async function WatchPage({ params }) {
   try {
     // Fetch video data directly from MongoDB
     const video = await fetchVideoByQuery(query);
-    if (video) videos = [video]; // keep consistent with previous array structure
+    if (video) {
+      videos = video; 
+
+    }// keep consistent with previous array structure
   } catch (err) {
     console.error("Error fetching videos:", err);
   }
 
-  let videoSource = videos[0].data[0] ? Video_Uri + (videos[0].data[0].video_url || "") : "";
+
+  let videoSource = videos.data[0] ? Video_Uri + (videos.data[0].video_url || "") : "";
   videoSource = videoSource?videoSource.replace("downloads", "videos"):videoSource;
-  
-console.log(videoSource)
-  const videoSchema = videos[0]
+  console.log(videos)
+// return
+  const videoSchema = videos
     ? {
         "@context": "https://schema.org",
         "@type": "VideoObject",
-        name: videos[0].title || "Unknown Video",
-        description: videos[0].description || "No description available",
-        thumbnailUrl: videos[0].image || "",
-        uploadDate: videos[0].uploadDate || "",
+        name: videos.title || "Unknown Video",
+        description: videos.description || "No description available",
+        thumbnailUrl: videos.image || "",
+        uploadDate: videos.uploadDate || "",
         contentUrl: `${process.env.NEXT_PUBLIC_BASE_URL || ""}/watch/${slug}`,
-        embedUrl: videos[0].embedUrl || "",
+        embedUrl: videos.embedUrl || "",
       }
     : null;
 
@@ -48,10 +52,10 @@ console.log(videoSource)
   return (
     <>
       <Head>
-        <title>{videos[0].title || "Watch Video"}</title>
+        <title>{videos.title || "Watch Video"}</title>
         <meta
           name="description"
-          content={videos[0].description || "Enjoy watching videos"}
+          content={videos.description || "Enjoy watching videos"}
         />
         {videoSchema && (
           <script
@@ -71,20 +75,20 @@ console.log(videoSource)
           <div className="flex flex-col w-full">
             <VideoPlayer
               publicId={videoSource}
-              poster={videos[0].image || ""}
+              poster={videos.image || ""}
             />
             <div className="mt-4 p-4 bg-gray-700 rounded-lg">
-              <p className="text-lg font-bold">{videos[0].title || "Untitled"}</p>
-              <p className="text-gray-400">Duration: {videos[0].duration || "Unknown"}</p>
+              <p className="text-lg font-bold">{videos.data[0].title || "Untitled"}</p>
+              <p className="text-gray-400">Duration: {videos.data[0].duration || "Unknown"}</p>
             </div>
 
             <div className="mt-4">
               <span className="font-semibold">Tags: </span>
-              {videos[0]?.tagsList?.length > 0
-                ? videos[0].tagsList.map((tag, i) => (
+              {videos.data[0]?.tags?.length > 0
+                ? videos.data[0].tags.map((tag, i) => (
                     <span key={i} className="text-green-400">
                       {tag}
-                      {i !== videos[0].tagsList.length - 1 && ", "}
+                      {i !== videos.data[0].tags.length - 1 && ", "}
                     </span>
                   ))
                 : <span className="text-gray-500">No tags</span>}
@@ -92,7 +96,7 @@ console.log(videoSource)
 
             <div className="mt-6">
               <Link
-                href={`/download/${videos[0].id || ""}`}
+                href={`/download/${videos.data[0].id || ""}`}
                 className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition"
               >
                 Download Full Video HD
